@@ -26,40 +26,39 @@ describe Rack::SequelTransaction do
     end
   end
 
-  it 'returns result' do
-    expect_call 200
-    result = subject.call(env)
-    result.must_equal [200, {}, []]
-  end
-
   it 'wont rollback when ok' do
     expect_call 200
-    subject.call env
+    result = subject.call env
+    result.must_equal [200, {}, []]
     dataset.wont_be :empty?
   end
 
   it 'wont roll back on redirect' do
     expect_call 301
-    subject.call env
+    result = subject.call env
+    result.must_equal [301, {}, []]
     dataset.wont_be :empty?
   end
 
   it 'rolls back on sinatra error' do
     expect_call 200
     env['sinatra.error'] = StandardError.new 'snap'
-    subject.call env
+    result = subject.call env
+    result.must_equal [200, {}, []]
     dataset.must_be :empty?
   end
 
   it 'rolls back on server error' do
     expect_call 500
-    subject.call env
+    result = subject.call env
+    result.must_equal [500, {}, []]
     dataset.must_be :empty?
   end
 
   it 'rolls back on client error' do
     expect_call 400
-    subject.call env
+    result = subject.call env
+    result.must_equal [400, {}, []]
     dataset.must_be :empty?
   end
 
@@ -68,12 +67,6 @@ describe Rack::SequelTransaction do
 
     describe "on #{method} request" do
       before { env['REQUEST_METHOD'] = method }
-
-      it 'returns result' do
-        expect_call 200
-        result = subject.call(env)
-        result.must_equal [200, {}, []]
-      end
 
       it 'wont rollback on sinatra error' do
         expect_call 200
