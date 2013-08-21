@@ -15,11 +15,19 @@ Or install it yourself as:
 ## Sidekiq Wireup
 
 ```ruby
+Sidekiq.configure_server do |c|
+  c.server_middleware do |chain|
+    chain.add Sidekiq::Middleware::SequelTransaction,
+      connection: Sequel.connect('sqlite:///')
+  end
+end
 ```
 
 ## Rack Wireup
 
 ```ruby
+use Rack::SequelTransaction,
+  connection: Sequel.connect('sqlite:///')
 ```
 
 ## Contributing
