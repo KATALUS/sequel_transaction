@@ -6,15 +6,20 @@ module Rack
     end
 
     def call(env)
-      @connection.transaction do
-        result = @inner.call env
-        response = Response.new([], result[0])
-        err = env['sinatra.error']
+      req = Request.new env
+      if req.get? || req.head? || req.options?
+        @inner.call env
+      else
+        @connection.transaction do
+          result = @inner.call env
+          response = Response.new [], result[0]
+          err = env['sinatra.error']
 
-        if err || response.client_error? || response.server_error?
-          raise Sequel::Rollback
+          if err || response.client_error? || response.server_error?
+            raise Sequel::Rollback
+          end
+          result
         end
-        result
       end
     end
   end
