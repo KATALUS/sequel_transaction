@@ -8,11 +8,11 @@ require 'minitest/autorun'
 Bundler.require :development
 
 class Minitest::Spec
-  def connection
-    @connection ||= Sequel.connect 'sqlite:///'
-  end
-
   def mock
     Minitest::Mock.new
+  end
+
+  def connection
+    @connection ||= Sequel.connect 'sqlite:///'
   end
 end
