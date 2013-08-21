@@ -2,6 +2,7 @@
 require File.expand_path('../lib/sequel_transaction/version', __FILE__)
 
 Gem::Specification.new do |gem|
+  gem.author        = 'vyrak.bunleang@gmail.com'
   gem.description   = 'Middlewares for Sequel transactions'
   gem.summary       = 'Middlewares for Sequel transactions'
 
