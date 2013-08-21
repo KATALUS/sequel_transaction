@@ -10,4 +10,6 @@ Gem::Specification.new do |gem|
   gem.name          = "sequel_transaction"
   gem.require_paths = ["lib"]
   gem.version       = SequelTransaction::VERSION
+
+  gem.add_dependency 'sequel', '>= 4.0.0'
 end
