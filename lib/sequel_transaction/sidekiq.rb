@@ -1,1 +1,1 @@
-Dir[File.expand_path("../sidekiq/*.rb", __FILE__)].each { |f| require f }
+require 'sequel_transaction/sidekiq/middleware'

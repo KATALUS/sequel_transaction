@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'sequel_transaction/rack'
 
 describe Rack::SequelTransaction do
   let(:inner) { mock }

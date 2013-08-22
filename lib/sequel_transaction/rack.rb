@@ -1,1 +1,1 @@
-Dir[File.expand_path("../rack/*.rb", __FILE__)].each { |f| require f }
+require 'sequel_transaction/rack/middleware'

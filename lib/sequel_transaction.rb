@@ -1,4 +1,3 @@
 module SequelTransaction
+  require 'sequel_transaction/version'
 end
-
-Dir[File.expand_path("../sequel_transaction/*.rb", __FILE__)].each { |f| require f }

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'sequel_transaction/sidekiq'
 
 describe Rack::SequelTransaction do
   let(:worker_class) { mock }
