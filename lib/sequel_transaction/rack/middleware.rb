@@ -10,6 +10,7 @@ module Rack
       if req.get? || req.head? || req.options?
         result = @inner.call env
       else
+        env['transaction.connection'] = @connection
         @connection.transaction do
           result = @inner.call env
           response = Response.new [], result[0]

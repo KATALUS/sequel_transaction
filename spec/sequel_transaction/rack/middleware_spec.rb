@@ -63,6 +63,12 @@ describe Rack::SequelTransaction do
     dataset.must_be :empty?
   end
 
+  it 'adds connection to env' do
+    expect_call 200
+    subject.call env
+    env['transaction.connection'].must_equal connection
+  end
+
   %w{ GET HEAD OPTIONS }.each do |method|
     # shouldn't be modifying anything on these types of requests; modifying for assertion purposes
 
@@ -86,6 +92,12 @@ describe Rack::SequelTransaction do
         expect_call 400
         subject.call env
         dataset.wont_be :empty?
+      end
+
+      it 'wont set connection on env' do
+        expect_call 200
+        subject.call env
+        env['transaction.connection'].must_be_nil
       end
     end
   end
