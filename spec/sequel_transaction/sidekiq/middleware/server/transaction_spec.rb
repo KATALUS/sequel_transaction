@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'sequel_transaction/sidekiq'
 
-describe Rack::SequelTransaction do
+describe Sidekiq::Middleware::Server::Transaction do
   let(:worker_class) { mock }
   let(:msg) { mock }
   let(:queue) { mock }
@@ -9,7 +9,7 @@ describe Rack::SequelTransaction do
   let(:dataset) { connection[table_name] }
   let(:error) { RuntimeError.new }
 
-  subject { Sidekiq::Middleware::SequelTransaction.new connection: connection }
+  subject { Sidekiq::Middleware::Server::Transaction.new connection: connection }
 
   before do
     connection.create_table table_name do
