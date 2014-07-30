@@ -2,9 +2,6 @@ require 'spec_helper'
 require 'sequel_transaction/sidekiq'
 
 describe Sidekiq::Middleware::Client::AfterCommit do
-  let(:worker_class) { mock }
-  let(:msg) { mock }
-  let(:queue) { mock }
   let(:table_name) { :sidekiq }
   let(:dataset) { connection[table_name] }
   let(:error) { RuntimeError.new }
@@ -22,7 +19,7 @@ describe Sidekiq::Middleware::Client::AfterCommit do
   it 'defers yield until after committing a transaction' do
     called = false
     connection.transaction do
-      subject.call worker_class, msg, queue do
+      subject.call do
         called = true
       end
       called.must_equal false
@@ -32,7 +29,7 @@ describe Sidekiq::Middleware::Client::AfterCommit do
 
   it 'yields immediately without transaction' do
     called = false
-    subject.call worker_class, msg, queue do
+    subject.call do
       called = true
     end
     called.must_equal true
@@ -42,7 +39,7 @@ describe Sidekiq::Middleware::Client::AfterCommit do
     called = false
     begin
       connection.transaction do
-        subject.call worker_class, msg, queue do
+        subject.call do
           called = true
         end
         raise

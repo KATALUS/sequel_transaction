@@ -6,7 +6,7 @@ module Sidekiq
           @connection = settings.fetch(:connection)
         end
 
-        def call(worker_class, message, queue)
+        def call(*args)
           @connection.transaction do
             yield
           end

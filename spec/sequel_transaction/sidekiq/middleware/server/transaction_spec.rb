@@ -2,9 +2,6 @@ require 'spec_helper'
 require 'sequel_transaction/sidekiq'
 
 describe Sidekiq::Middleware::Server::Transaction do
-  let(:worker_class) { mock }
-  let(:msg) { mock }
-  let(:queue) { mock }
   let(:table_name) { :sidekiq }
   let(:dataset) { connection[table_name] }
   let(:error) { RuntimeError.new }
@@ -20,7 +17,7 @@ describe Sidekiq::Middleware::Server::Transaction do
   after { connection.drop_table table_name }
 
   it 'commits transaction' do
-    subject.call worker_class, msg, queue do
+    subject.call do
       dataset.insert name: 'first'
       dataset.insert name: 'second'
     end
@@ -30,7 +27,7 @@ describe Sidekiq::Middleware::Server::Transaction do
   it 'rolls back transaction' do
     actual_error = nil
     begin
-      subject.call worker_class, msg, queue do
+      subject.call do
         dataset.insert name: 'first'
         raise error
       end
