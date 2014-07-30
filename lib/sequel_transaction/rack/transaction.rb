@@ -1,5 +1,5 @@
 module Rack
-  class SequelTransaction
+  class Transaction
     def initialize(inner, settings)
       @inner = inner
       @connection = settings.fetch(:connection)

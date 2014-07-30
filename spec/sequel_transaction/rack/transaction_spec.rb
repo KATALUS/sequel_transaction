@@ -1,14 +1,14 @@
 require 'spec_helper'
 require 'sequel_transaction/rack'
 
-describe Rack::SequelTransaction do
+describe Rack::Transaction do
   let(:inner) { mock }
   let(:env) { { 'field' => 'variable' } }
   let(:table_name) { :rack }
   let(:dataset) { connection[table_name] }
   let(:error) { RuntimeError.new }
 
-  subject { Rack::SequelTransaction.new inner, connection: connection }
+  subject { Rack::Transaction.new inner, connection: connection }
 
   before do
     connection.create_table table_name do

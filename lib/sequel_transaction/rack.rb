@@ -1,1 +1,1 @@
-require 'sequel_transaction/rack/middleware'
+require 'sequel_transaction/rack/transaction'
