@@ -37,4 +37,18 @@ describe Sidekiq::Middleware::Client::AfterCommit do
     end
     called.must_equal true
   end
+
+  it 'does not yield after failing to commit transaction' do
+    called = false
+    begin
+      connection.transaction do
+        subject.call worker_class, msg, queue do
+          called = true
+        end
+        raise
+      end
+    rescue
+    end
+    called.must_equal false
+  end
 end
