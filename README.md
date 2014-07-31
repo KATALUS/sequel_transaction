@@ -25,18 +25,6 @@ Sidekiq.configure_server do |c|
 end
 ```
 
-It may be useful to ensure the transaction has been committed before queuing up
-work by adding the following:
-
-```ruby
-Sidekiq.configure_client do |c|
-  c.client_middleware do |chain|
-    chain.add Sidekiq::Middleware::Client::AfterCommit,
-      connection: Sequel.connect('sqlite:///')
-  end
-end
-```
-
 ## Rack Wireup
 
 To automatically wrap requests in a transaction, add the following:
